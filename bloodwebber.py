@@ -17,23 +17,28 @@ RUN THE SCRIPT:
 MOVE MOUSE TO ANY SCREEN CORNER AT ANY TIME TO STOP.
 '''
 
-def RINGS() -> tuple:
-    '''Manually define positions to click on screen.'''
+import sys
+import time
+import pyautogui as pag
+import ctypes
+import numpy as np
+import cv2
 
-    center = (
+'''Manually define positions to click on screen.'''
+
+rings = {
+    "center": (
         (680, 580)
-    )
-
-    inner = (
+    ),
+    "inner": (
         (675, 460),
         (575, 520),
         (570, 645),
         (680, 690),
         (770, 630),
         (780, 520)
-    )
-
-    middle = (
+    ),
+    "middle": (
         (615, 345),
         (500, 410),
         (440, 520),
@@ -46,9 +51,8 @@ def RINGS() -> tuple:
         (920, 520),
         (855, 410),
         (740, 350)
-    )
-
-    outer = (
+    ),
+    "outer": (
         (680, 220),
         (500, 270),
         (370, 400),
@@ -62,35 +66,32 @@ def RINGS() -> tuple:
         (985, 405),
         (860, 280)
     )
-
-    return (inner, middle, outer)
-
-import sys
-import time
-import pyautogui as pag
+}
 
 def main():
     if sys.argv[-1] == 'position':
         get_position()
     else:
-        autolevel(RINGS())
+        autolevel(rings)
 
 def get_position() -> None:
     '''Print location of mouse cursor.'''
 
     print(pag.position())
 
-def autolevel(rings: tuple[tuple[tuple]]) -> None:
+def autolevel(rings: dict[str, tuple[tuple]]) -> None:
     '''Run the auto-leveling process.'''
+    map_level()
 
     i = 0
     while i <= 50:
         i += 1
         time.sleep(3)
 
-        for ring in rings:
-            for x, y in ring:
-                click(x, y)
+        for key in rings:
+            for tup in rings[key]:
+                print(tup[0])
+                # click(x, y)
 
 def click(moveToX: int, moveToY: int) -> None:
     '''Press and hold the left mouse button for one second.'''
@@ -100,5 +101,20 @@ def click(moveToX: int, moveToY: int) -> None:
     pag.mouseDown()
     time.sleep(1)
     pag.mouseUp()
+
+def scale(pointX, pointY):
+    user32 = ctypes.windll.user32
+    scrn_size = (user32.GetSystemMetrics(0), user32.GetSystemMetrics(1))
+
+    finalX = (pointX/1920) * scrn_size[0]
+    finalY = (pointY/1080) * scrn_size[1]
+    return (finalX, finalY)
+
+def map_level():
+    image = pag.screenshot()
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+    
+
+
 
 if __name__ == '__main__': main()
