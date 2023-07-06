@@ -63,7 +63,7 @@ def RINGS() -> tuple:
         (860, 280)
     )
 
-    return (inner, middle, outer)
+    return (outer, middle, inner)
 
 import sys
 import time
@@ -93,12 +93,13 @@ def autolevel(rings: tuple[tuple[tuple]]) -> None:
                 click(x, y)
 
 def click(moveToX: int, moveToY: int) -> None:
-    '''Press and hold the left mouse button for one second.'''
+    '''Click at position.'''
 
-    pag.moveTo(moveToX, moveToY, 0.2)
-    time.sleep(0.1)
+    pag.moveTo(moveToX, moveToY)
     pag.mouseDown()
-    time.sleep(1)
+    time.sleep(0.1)
     pag.mouseUp()
 
+
 if __name__ == '__main__': main()
+ 
