@@ -43,6 +43,8 @@ def main():
 
     if sys.argv[-1] == 'position':
         get_position()
+    elif sys.argv[-1] == 'first-prestige'
+        autolevel_first_prestige()
     else:
         autolevel()
 
@@ -51,17 +53,26 @@ def get_position() -> None:
 
     print(pag.position())
 
-def autolevel(rings: tuple[tuple[tuple]]) -> None:
-    '''Run the auto-leveling process.'''
+def autolevel_first_prestige(rings: tuple[tuple[tuple]]) -> None:
+    '''Automatically level to the first prestige.'''
 
     i = 0
     while i <= 50:
         i += 1
         time.sleep(3)
-
         for ring in rings:
             for x, y in ring:
                 click(x, y)
+
+def autolevel(rings: tuple[tuple[tuple]]) -> None:
+    '''Automatically prestige once, after prestige already reached.'''
+
+    i = 0
+    while i <= 50:
+        i += 1
+        time.sleep(5)
+        x, y = rings['center'][0]
+        click(x, y)
 
 def get_scale_factor() -> tuple:
     '''Get scaling factor between coded and current monitor resolutions.'''
