@@ -10,9 +10,9 @@ RUN THE SCRIPT:
 MOVE MOUSE TO ANY SCREEN CORNER AT ANY TIME TO STOP.
 '''
 
+import ctypes
 import sys
 import time
-
 import pyautogui as pag
 
 def main():
@@ -43,10 +43,10 @@ def main():
 
     if sys.argv[-1] == 'position':
         get_position()
-    elif sys.argv[-1] == 'first-prestige'
-        autolevel_first_prestige()
+    elif sys.argv[-1] == 'first-prestige':
+        autolevel_first_prestige(rings)
     else:
-        autolevel()
+        autolevel(rings)
 
 def get_position() -> None:
     '''Print location of mouse cursor.'''
@@ -71,7 +71,7 @@ def autolevel(rings: tuple[tuple[tuple]]) -> None:
     while i <= 50:
         i += 1
         time.sleep(5)
-        x, y = rings['center'][0]
+        x, y = rings['center']
         click(x, y)
 
 def get_scale_factor() -> tuple:
